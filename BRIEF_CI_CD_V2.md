@@ -274,6 +274,9 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 uv sync
 
 # Lancer l'application
+docker compose up -d
+
+# Puis
 uv run fastapi dev app/main.py
 ```
 
