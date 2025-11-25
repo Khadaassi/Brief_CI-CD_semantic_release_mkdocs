@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
 
@@ -40,8 +41,10 @@ def health() -> dict[str, str]:
 
 
 # Variables secrètes (dev only)
-secret: str = "fezffzefzefzlfzhfzfzfjzfzfzfdzgerg54g651fzefg51zeg5g"
-API_KEY: str = "sk-1234567890abcdef"
+
+SECRET_KEY: str = os.getenv("SECRET_KEY", "dev-only-not-for-production")
+API_KEY: str | None = os.getenv("API_KEY")
+
 
 # Ligne volontairement trop longue (violation E501)
 very_long_variable_name_that_exceeds_line_length: str = (

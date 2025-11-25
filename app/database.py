@@ -10,14 +10,13 @@ from collections.abc import Generator
 from sqlalchemy.engine import Engine
 from sqlmodel import Session, create_engine
 
-DATABASE_URL: str = os.getenv(
-    "DATABASE_URL",
-    "postgresql://postgres:postgres@localhost:5432/items_db"
-)
+DATABASE_URL = os.getenv("DATABASE_URL")
+if DATABASE_URL is None:
+    raise ValueError("DATABASE_URL environment variable is not set")
 
 POOL_SIZE: int = 10
 
-engine: Engine = create_engine(DATABASE_URL, pool_size=POOL_SIZE)
+engine= create_engine(DATABASE_URL, pool_size= POOL_SIZE)
 
 
 def get_db() -> Generator[Session]:
