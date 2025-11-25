@@ -1,6 +1,8 @@
 from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
 from sqlmodel import SQLModel
+
 from app.database import engine
 from app.routes import items_router
 
