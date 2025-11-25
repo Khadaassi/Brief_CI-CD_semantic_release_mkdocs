@@ -11,7 +11,6 @@ from app.database import engine
 from app.routes import items_router
 
 DEBUG_MODE: bool = True
-UNUSED_VAR: str = "cette variable n'est jamais utilisée"  # noqa: F841
 
 
 @asynccontextmanager
