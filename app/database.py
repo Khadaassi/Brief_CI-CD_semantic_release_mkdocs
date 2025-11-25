@@ -7,7 +7,6 @@ et fournit une fonction générateur pour obtenir des sessions de base de donné
 import os
 from collections.abc import Generator
 
-from sqlalchemy.engine import Engine
 from sqlmodel import Session, create_engine
 
 DATABASE_URL = os.getenv("DATABASE_URL")
@@ -16,7 +15,7 @@ if DATABASE_URL is None:
 
 POOL_SIZE: int = 10
 
-engine= create_engine(DATABASE_URL, pool_size= POOL_SIZE)
+engine = create_engine(DATABASE_URL, pool_size=POOL_SIZE)
 
 
 def get_db() -> Generator[Session]:
