@@ -26,10 +26,12 @@ jobs:
 
       - name: Exécuter ruff check
         run: uv run ruff check .
+      
+      - name: Formatter le code
+        run: uv run ruff format .
 
       - name : Vérifier le formatage
         run: uv run ruff format --check .
-
     
   typecheck:
     runs-on: ubuntu-latest
