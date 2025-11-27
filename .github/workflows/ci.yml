@@ -20,19 +20,19 @@ jobs:
 
       - name: Set up Python
         run: uv python install
-      
+
       - name: Install dependencies
         run: uv sync
 
       - name: Exécuter ruff check
         run: uv run ruff check .
-      
+
       - name: Formatter le code
         run: uv run ruff format .
 
       - name : Vérifier le formatage
         run: uv run ruff format --check .
-    
+
   typecheck:
     runs-on: ubuntu-latest
     steps:
@@ -43,7 +43,7 @@ jobs:
         with:
           enable-cache: true
           cache-dependency-glob: "uv.lock"
-    
+
       - name: Install dependencies
         run: uv sync
 
@@ -103,3 +103,9 @@ jobs:
 
         - name: Upload coverage to Codecov (optional)
           run: uv run codecov
+  pre-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+      - uses: pre-commit/action@v3.0.0
