@@ -4,7 +4,12 @@ Ce module contient la couche service qui encapsule toutes les
 opérations CRUD (Create, Read, Update, Delete) sur les articles.
 """
 
+from __future__ import annotations
+
+from typing import Any
+
 from sqlmodel import Session, select
+
 from app.models.item import Item
 from app.schemas.item import ItemCreate, ItemUpdate
 
@@ -16,6 +21,7 @@ class ItemService:
     toutes les opérations CRUD sur les articles, en séparant
     la logique métier des routes API.
     """
+
     @staticmethod
     def get_all(db: Session, skip: int = 0, limit: int = 100) -> list[Item]:
         """Récupère une liste paginée d'articles.
@@ -27,10 +33,6 @@ class ItemService:
 
         Returns:
             Liste d'objets Item de la base de données.
-
-        Example:
-            >>> items = ItemService.get_all(db, skip=0, limit=10)
-            >>> len(items)  # Maximum 10 articles
         """
         statement = select(Item).offset(skip).limit(limit)
         return list(db.exec(statement).all())
@@ -45,11 +47,6 @@ class ItemService:
 
         Returns:
             L'objet Item correspondant, ou None si non trouvé.
-
-        Example:
-            >>> item = ItemService.get_by_id(db, 1)
-            >>> if item:
-            ...     print(item.nom)
         """
         return db.get(Item, item_id)
 
@@ -63,11 +60,6 @@ class ItemService:
 
         Returns:
             L'objet Item nouvellement créé avec son ID généré.
-
-        Example:
-            >>> new_item = ItemCreate(nom="Écran", prix=299.99)
-            >>> created = ItemService.create(db, new_item)
-            >>> print(created.id)  # ID auto-généré
         """
         item = Item(**item_data.model_dump())
         db.add(item)
@@ -89,16 +81,12 @@ class ItemService:
 
         Returns:
             L'objet Item mis à jour, ou None si l'article n'existe pas.
-
-        Example:
-            >>> update_data = ItemUpdate(prix=249.99)  # Ne met à jour que le prix
-            >>> updated = ItemService.update(db, 1, update_data)
         """
         item = db.get(Item, item_id)
         if not item:
             return None
 
-        update_data = item_data.model_dump(exclude_unset=True)
+        update_data: dict[str, Any] = item_data.model_dump(exclude_unset=True)
         for field, value in update_data.items():
             setattr(item, field, value)
 
@@ -117,11 +105,6 @@ class ItemService:
 
         Returns:
             True si l'article a été supprimé, False s'il n'existait pas.
-
-        Example:
-            >>> success = ItemService.delete(db, 1)
-            >>> if success:
-            ...     print("Article supprimé avec succès")
         """
         item = db.get(Item, item_id)
         if not item:
