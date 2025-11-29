@@ -11,25 +11,24 @@ dependencies = [
     "fastapi[standard]>=0.121.0",
     "psycopg2-binary>=2.9.11",
     "sqlmodel>=0.0.27",
-    "ruff",
-    "mypy",
-    "pytest",
-    "bandit",
-    "safety",
-    "pre-commit>=4.4.0",
-    "detect-secrets>=1.5.0",
 ]
 
 [dependency-groups]
 dev = [
     "diagrams>=0.24.4",
+    "ruff",
     "mypy>=1.18.2",
+    "pytest",
+    "bandit",
+    "safety",
+    "pre-commit>=4.4.0",
+    "detect-secrets>=1.5.0",
+    "python-semantic-release"
 ]
 
 # ============================================================================
 # TOOL CONFIGURATIONS
 # ============================================================================
-
 
 [tool.ruff]
 line-length = 88
@@ -64,6 +63,41 @@ python_files = "test_*.py"
 python_functions = "test_*"
 addopts = "--strict-markers --cov=app --cov-report=term-missing"
 
-
 [tool.setuptools]
 packages = ["app"]
+
+[tool.semantic_release]
+version_toml = ["pyproject.toml:project.version"]
+build_command = "uv build"
+commit_parser = "conventional"
+
+[tool.semantic_release.branches.main]
+match = "main"
+
+[tool.semantic_release.branches.develop]
+match = "develop"
+prerelease = true
+prerelease_token = "rc"
+
+[tool.semantic_release.changelog]
+exclude_commit_patterns = [
+    '''chore(?:\([^)]*?\))?: .+''',
+    '''ci(?:\([^)]*?\))?: .+''',
+    '''refactor(?:\([^)]*?\))?: .+''',
+    '''style(?:\([^)]*?\))?: .+''',
+    '''test(?:\([^)]*?\))?: .+''',
+    '''build\((?!deps\): .+)''',
+    '''Initial [Cc]ommit.*''',
+]
+
+[tool.semantic_release.commit_parser_options]
+minor_tags = ["feat"]
+patch_tags = ["fix", "perf"]
+parse_squash_commits = true
+ignore_merge_commits = true
+
+[tool.semantic_release.remote]
+token = "GH_TOKEN"
+
+[tool.semantic_release.publish]
+dist_glob_patterns = ["dist/*"]
