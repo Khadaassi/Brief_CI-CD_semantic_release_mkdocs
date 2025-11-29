@@ -274,6 +274,9 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 uv sync
 
 # Lancer l'application
+docker compose up -d
+
+# Puis
 uv run fastapi dev app/main.py
 ```
 
@@ -914,10 +917,10 @@ Bloquer les problèmes **AVANT** qu'ils n'arrivent dans la CI. **C'est le game c
 
 ```bash
 # Installer pre-commit
-uv pip install pre-commit
+uv add pre-commit
 
 # Vérifier
-pre-commit --version
+uv run pre-commit --version
 ```
 
 #### 4.2 Configuration
@@ -1162,17 +1165,17 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up Docker Buildx
-        uses: 
+        uses:
 
       - name: Log in to GitHub Container Registry
-        uses: 
+        uses:
 
       - name: Extract metadata
         id: meta
-        uses: 
+        uses:
 
       - name: Build and push Docker image
-        uses: 
+        uses:
 
 ```
 
@@ -1333,20 +1336,20 @@ jobs:
 
 
       - name: Set up uv
-        uses: 
+        uses:
 
       - name: Install dependencies
-        run: 
+        run:
 
       - name: Python Semantic Release
         id: release
-        uses: 
+        uses:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Publish to GHCR (if new release)
         if:steps.release.outputs.released == 'true'
-        run: 
+        run:
 ```
 
 **Ce workflow** :
@@ -1760,14 +1763,14 @@ jobs:
 
       - name: Get release version
         id: version
-        run: 
+        run:
 
       - name: Deploy to Azure Container Apps
-        run: 
+        run:
 
 
       - name: Health Check
-        run: 
+        run:
 
       - name: Rollback on failure
         if: failure()
